@@ -23,7 +23,7 @@ name                     : "0xPThree"
 description              : "Security, CTFs and other projects"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "0xPThree/0xPThree.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
@@ -108,7 +108,10 @@ author:
   avatar           : "/assets/images/avatar.png"
   bio              : "Pentester, HTB Enjoyer"
   location         : "Sweden"
-  email            :
+  email            : "email-test"
+  keybase          : "keybase-test"
+  twitter          : "twitter-test"
+  github           : "0xpthree"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
