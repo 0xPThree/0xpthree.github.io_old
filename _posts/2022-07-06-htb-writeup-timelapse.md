@@ -1,6 +1,27 @@
-# how-to-timelapse.htb
+---
+layout: single
+title: Timelapse - Hack The Box
+excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+date: 2022-04-01
+classes: wide
+header:
+  teaser: /assets/images/htb-writeup-timelapse/timelapse_logo.png
+  teaser_home_page: true
+  icon: /assets/images/hackthebox.png
+categories:
+  - hackthebox
+  - infosec
+tags:  
+  - osticket
+  - mysql
+  - mattermost
+  - hashcat
+  - rules
+---
 
-![[Pasted image 20220331090922.png]]
+![](/assets/images/htb-writeup-timelapse/timelapse_logo.png)
+
+"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
 # USER
 
