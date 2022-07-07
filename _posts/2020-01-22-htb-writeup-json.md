@@ -7,12 +7,12 @@ classes: wide
 header:
   teaser: /assets/images/htb-writeup-json/json_logo.png
   teaser_home_page: true
-  icon: /assets/images/htb.png
+  icon: /assets/images/windows.png
 categories:
   - hackthebox
   - infosec
 tags:  
-  - osticket
+  - windows
   - mysql
   - mattermost
   - hashcat

@@ -7,12 +7,12 @@ classes: wide
 header:
   teaser: /assets/images/htb-writeup-sneakymailer/sneakymailer_logo.png
   teaser_home_page: true
-  icon: /assets/images/htb.png
+  icon: /assets/images/linux.png
 categories:
   - hackthebox
   - infosec
 tags:  
-  - osticket
+  - linux
   - mysql
   - mattermost
   - hashcat

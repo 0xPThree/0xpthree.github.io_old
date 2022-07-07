@@ -7,12 +7,12 @@ classes: wide
 header:
   teaser: /assets/images/htb-writeup-openkeys/openkeys_logo.png
   teaser_home_page: true
-  icon: /assets/images/htb.png
+  icon: /assets/images/openbsd.png
 categories:
   - hackthebox
   - infosec
 tags:  
-  - osticket
+  - openbsd
   - mysql
   - mattermost
   - hashcat

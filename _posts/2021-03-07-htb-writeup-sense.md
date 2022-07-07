@@ -7,12 +7,12 @@ classes: wide
 header:
   teaser: /assets/images/htb-writeup-sense/sense_logo.png
   teaser_home_page: true
-  icon: /assets/images/htb.png
+  icon: /assets/images/freebsd.png
 categories:
   - hackthebox
   - infosec
 tags:  
-  - osticket
+  - freebsd
   - mysql
   - mattermost
   - hashcat

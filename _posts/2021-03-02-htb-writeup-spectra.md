@@ -7,12 +7,12 @@ classes: wide
 header:
   teaser: /assets/images/htb-writeup-spectra/spectra_logo.png
   teaser_home_page: true
-  icon: /assets/images/htb.png
+  icon: /assets/images/question-mark-white.png
 categories:
   - hackthebox
   - infosec
 tags:  
-  - osticket
+  - unknown os
   - mysql
   - mattermost
   - hashcat
