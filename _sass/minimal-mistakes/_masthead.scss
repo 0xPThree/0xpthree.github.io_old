@@ -15,7 +15,7 @@
     @include clearfix;
     margin-left: auto;
     margin-right: auto;
-    padding: 1em;
+    padding: 0.5em;
     max-width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -64,6 +64,7 @@
   margin-right: 0;
   width: 100%;
   clear: both;
+  font-size: $type-size-6;
 
   .site-nav {
     margin-left: 0;

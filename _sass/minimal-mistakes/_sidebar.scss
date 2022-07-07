@@ -183,6 +183,7 @@
   @include breakpoint($large) {
     margin-top: 10px;
     margin-bottom: 20px;
+    font-size: $type-size-6;
   }
 }
 
@@ -191,6 +192,7 @@
   display: table-cell;
   vertical-align: middle;
   font-family: $sans-serif;
+  font-size: $type-size-6;
   z-index: 20;
   cursor: pointer;
 
