@@ -13,15 +13,17 @@ categories:
   - infosec
 tags:  
   - linux
-  - mysql
-  - mattermost
-  - hashcat
-  - rules
+  - easy
+  - wordpress
+  - rocketchat
+  - polkit
+  - CVE-2021-3560
 ---
 
-![](/assets/images/htb-writeup-paper/paper_logo.png)
+![](/assets/images/htb-writeup-paper/paper_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+<br>
 
 ----------------
 
@@ -68,11 +70,6 @@ PORT     STATE         SERVICE
 5353/udp open|filtered zeroconf
 ```
 
-**dirb:**
-```bash
-N/A
-```
-
 **nikto:**
 ```bash
 PORT 80:
@@ -86,11 +83,6 @@ PORT 443:
                    Ciphers:  TLS_AES_256_GCM_SHA384
                    Issuer:   /C=US/O=Unspecified/OU=ca-3899279223185377061/CN=localhost.localdomain/emailAddress=root@localhost.localdomain
 + Server: Apache/2.4.37 (centos) OpenSSL/1.1.1k mod_fcgid/2.3.9
-```
-
-**ffuf:**
-```bash
-N/A
 ```
 
 **wpscan:**
@@ -146,21 +138,21 @@ Looking for WP 5.2.3 vulnerabilities we find a unauthed view of private posts.
 ┌──(void㉿void)-[/htb/paper]
 └─$ searchsploit wordpress 5.2.3
 [... snip ...]
-WordPress Core < 5.2.3 - Viewing Unauthenticated/Password/Private Posts                                                    | multiple/webapps/47690.md
+WordPress Core < 5.2.3 - Viewing Unauthenticated/Password/Private Posts                    | multiple/webapps/47690.md
 ```
 
-Reading about the vulnerability it is as simple as adding `?static=1` to view posts. 
+Reading about the vulnerability it is as simple as adding `?static=1` to view posts. <br>
 `http://office.paper/?static=1` gives us:
 
-```ad-quote
-"Micheal please remove the secret from drafts for gods sake!"
-"Michael, you have to stop putting secrets in the drafts."
-"# Secret Registration URL of new Employee chat system http://chat.office.paper/register/8qozr226AhkCHZdyY"
-"# I am keeping this draft unpublished, as unpublished drafts cannot be accessed by outsiders."
-```
+
+> "Micheal please remove the secret from drafts for gods sake!"<br>
+> "Michael, you have to stop putting secrets in the drafts."<br>
+> "# Secret Registration URL of new Employee chat system http://chat.office.paper/register/8qozr226AhkCHZdyY"<br>
+> "# I am keeping this draft unpublished, as unpublished drafts cannot be accessed by outsiders."
+
 Use the provided link and create an account to the rocket.chat platform. 
 
-Reading the General chat we see that Dwight has created the bot `Recyclops` that is able to list file, and fetch files. 
+Reading the General chat we see that Dwight has created the bot `Recyclops` that is able to list- and fetch files. 
 Start a private conversation with `Recyclops` and enumerate.
 
 ```bash
@@ -287,7 +279,7 @@ Vulnerable to CVE-2021-3560
 Google for `cve-2021-3560 github` and we find a lot of POCs, download one and try it out. The exploit will work as intended, a user is created, however we are not able to login as that user. 
 Instead, try to exploit it manually. 
 
-"To avoid repeatedly triggering the authentication dialog box (which can be annoying), I recommend running the commands from an SSH session"
+> "To avoid repeatedly triggering the authentication dialog box (which can be annoying), I recommend running the commands from an SSH session"
 
 **Manual exploit of CVE-2021-3560:**
 ```bash
@@ -366,5 +358,4 @@ uid=0(root) gid=0(root) groups=0(root)
 ------
 
 # References
-**Polkit Privesc, CVE-2021-3560:**
-https://github.blog/2021-06-10-privilege-escalation-polkit-root-on-linux-with-bug/
+- [Polkit Privesc - CVE-2021-3560](https://github.blog/2021-06-10-privilege-escalation-polkit-root-on-linux-with-bug/)

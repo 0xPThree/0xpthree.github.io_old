@@ -37,9 +37,10 @@ body { margin: 0; }
   background: #000;
 }
 
+/* BLUE SELECTION INSTEAD OF DEFAULT BLACK - CUSTOM */
 ::selection {
   color: #fff;
-  background: #000;
+  background: rgb(20, 124, 110);
 }
 
 /* Display HTML5 elements in IE6-9 and FF3 */

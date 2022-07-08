@@ -13,15 +13,16 @@ categories:
   - infosec
 tags:  
   - linux
-  - mysql
-  - mattermost
+  - easy
+  - snmp
   - hashcat
   - rules
 ---
 
-![](/assets/images/htb-writeup-pandora/pandora_logo.png)
+![](/assets/images/htb-writeup-pandora/pandora_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+<br>
 
 ----------------
 
@@ -70,11 +71,6 @@ PORT     STATE         SERVICE
 **nikto:**
 ```bash
 + Server: Apache/2.4.41 (Ubuntu)
-```
-
-**ffuf:**
-```bash
-N/A
 ```
 
 **snmp-check:**
@@ -128,7 +124,7 @@ Setup a SSH Tunnel to access the internal webserver, try cracked credentials `ad
 [root:/git/htb/pandora]# ssh -L 80:localhost:80 daniel@pandora.htb
 ```
 
-![[Pasted image 20220126151853.png]]
+![](/assets/images/htb-writeup-pandora/pandora01.png)
 
 Unfortunatley the login fails. 
 

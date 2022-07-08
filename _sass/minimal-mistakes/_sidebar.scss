@@ -54,7 +54,7 @@
     font-family: $sans-serif-narrow;
   }
 
-  /* AUTHOR INFORMATION, LEFT SIDE BAR */
+  /* AUTHOR INFORMATION, LEFT SIDE BAR - CUSTOM */
   p,
   li {
     font-family: $monospace;
@@ -173,6 +173,8 @@
     margin-bottom: 10px;
   }
 }
+
+/* AUTHOR NAME - CUSTOM */
 .sidebar .author__name {
   font-family: $monospace;
   font-size: $type-size-5;

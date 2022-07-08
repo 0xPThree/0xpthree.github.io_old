@@ -108,7 +108,7 @@ author:
   avatar           : "/assets/images/avatar.png"
   bio              : "Pentester, HTB enjoyer<br>0-day contributor"
   location         : "Sweden"
-  email            : "email-test"
+  email            : "info@exploit.se"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
