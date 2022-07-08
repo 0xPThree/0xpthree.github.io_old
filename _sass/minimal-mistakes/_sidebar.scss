@@ -54,9 +54,10 @@
     font-family: $sans-serif-narrow;
   }
 
+  /* AUTHOR INFORMATION, LEFT SIDE BAR */
   p,
   li {
-    font-family: $sans-serif;
+    font-family: $monospace;
     font-size: $type-size-6;
     line-height: 1.5;
   }
@@ -173,7 +174,7 @@
   }
 }
 .sidebar .author__name {
-  font-family: $sans-serif;
+  font-family: $monospace;
   font-size: $type-size-5;
 }
 

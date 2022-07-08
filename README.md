@@ -1,1 +1,1 @@
-Note to self: before publishing always check locally - `bundle exec jekyll serve --livereload`
+Note to self: always check locally before publishing - `bundle exec jekyll serve --livereload`

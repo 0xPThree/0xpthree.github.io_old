@@ -12,7 +12,6 @@
   max-width: 100%;
   padding-left: 1em;
   padding-right: 1em;
-  font-family: $sans-serif;
   -webkit-animation: $intro-transition;
   animation: $intro-transition;
   -webkit-animation-delay: 0.3s;
@@ -61,7 +60,7 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
-    font-family: $sans-serif;
+    font-family: $monospace;
   }
 
   li {
@@ -73,7 +72,7 @@
       display: block;
       margin-bottom: 0.25em;
       padding: 0.5em 1em;
-      font-family: $sans-serif;
+      font-family: $monospace;
       font-size: 14px;
       font-weight: bold;
       line-height: 1.5;
@@ -117,13 +116,13 @@
     }
   }
 
-  /* next/previous buttons */
+  /* next/previous buttons - CUSTOM */
   &--pager {
     display: block;
     padding: 1em 2em;
     float: left;
     width: 50%;
-    font-family: $sans-serif;
+    font-family: $monospace;
     font-size: $type-size-5;
     font-weight: bold;
     text-align: center;

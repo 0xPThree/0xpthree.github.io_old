@@ -110,10 +110,12 @@ body {
 		}
 	}
 
+  /* FONT SIZE FOR POSTS - CUSTOM */
   p,
+  pre,
   li,
   dl {
-    font-size: 1em;
+    font-size: 0.7em;
   }
 
   /* paragraph indents */
@@ -155,13 +157,11 @@ body {
 
   dt {
     margin-top: 1em;
-    font-family: $sans-serif;
     font-weight: bold;
   }
 
   dd {
     margin-left: 1em;
-    font-family: $sans-serif;
     font-size: $type-size-6;
   }
 
@@ -300,7 +300,6 @@ body {
 .page__meta {
   margin-top: 2em;
   color: $muted-text-color;
-  font-family: $sans-serif;
   font-size: $type-size-6;
 
   p {
