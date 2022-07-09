@@ -240,6 +240,16 @@
         </li>
       {% endif %}
 
+      <!-- ADD CUSTOM DISCORD TAG -->
+      {% if author.discord %}
+        <li>
+          <a href="https://discord.gg/{{ author.discord }}" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+            <i class="fab fa-fw fa-discord" aria-hidden="true"></i><span class="label">Discord</span>
+          </a>
+        </li>
+      {% endif %}
+
+
       {% include author-profile-custom-links.html %}
     </ul>
   </div>
