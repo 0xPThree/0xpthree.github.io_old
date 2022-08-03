@@ -79,6 +79,13 @@
   }
 }
 
+.unreleased {
+  position: absolute;
+  width: 120px;
+  right: 0;
+  z-index: 1;
+}
+
 .archive__item-caption {
   position: absolute;
   bottom: 0;
@@ -110,7 +117,7 @@
 
 .list__item {
   .page__meta {
-    margin: 0 0 4px;
+    margin: 0 0 0;
     font-size: 0.6em;
   }
 }
