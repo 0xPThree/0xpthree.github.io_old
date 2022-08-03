@@ -7,24 +7,21 @@ classes: wide
 header:
   teaser: /assets/images/htb-writeup-streamio/streamio_logo.png
   teaser_home_page: true
-  icon: /assets/images/hackthebox.png
+  icon: /assets/images/windows.png
 categories:
   - hackthebox
 tags:  
   - windows
   - medium
-  - fuzzing
-  - sqli
-  - php
-  - ad
-  - bloodhound
-  - bloodyad
-  - firefox profile
+  - not retired
 ---
 
-![](/assets/images/htb-writeup-streamio/streamio_logo.png)
+![](/assets/images/htb-writeup-streamio/streamio_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-StreamIO is an medium-rated Windows machine from HackTheBox. For me this box was quite slow to start where I had to put a lot of time and energy into fuzzing and manually exploiting SQLi, but once I gained a foothold it was really fun and straight forward. In the end I've gained a deeper understanding of Active Directory and it's ACLs, as well as never to trust sqlmap doing even the easiest of tasks. Yet again BloodyAD proves it's worth as an amazing Active Directory Privilege Escalation tool.
+StreamIO is an medium-rated Windows machine from HackTheBox. For me this box was quite slow to start where I had to put a lot of time and energy into fuzzing and manually exploiting SQLi, but once I gained a foothold it was really fun and straight forward. In the end I've gained a deeper understanding of Active Directory and it's ACLs, as well as never to trust sqlmap doing even the easiest of tasks. Yet again BloodyAD proves it's worth as an amazing Active Directory Privilege Escalation tool. 
+<br>
+
+----------------
 
 # USER
 ### Step 1

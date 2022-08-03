@@ -1,27 +1,25 @@
 ---
 layout: single
 title: Noter - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-date: 2023-05-23
+excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+date: 2022-05-23
 classes: wide
 header:
   teaser: /assets/images/htb-writeup-noter/noter_logo.png
   teaser_home_page: true
-  icon: /assets/images/htb.png
+  icon: /assets/images/linux.png
 categories:
   - hackthebox
-  - infosec
 tags:  
-  - osticket
-  - mysql
-  - mattermost
-  - hashcat
-  - rules
+  - linux
+  - medium
+  - not retired
 ---
 
-![](/assets/images/htb-writeup-noter/noter_logo.png)
+![](/assets/images/htb-writeup-noter/noter_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+<br>
 
 ----------------
 
