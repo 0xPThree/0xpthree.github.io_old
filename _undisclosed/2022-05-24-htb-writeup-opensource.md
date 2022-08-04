@@ -1,7 +1,7 @@
 ---
 layout: single
 title: OpenSource - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "OpenSource is an easy-rated Linux machine from Hack The Box. As the name suggests we're met with an OpenSource project that have over shared, in making them vulnerable to code execution. The path to user is quiet unique and it alone makes this box very enjoyable! As a total git-noob I learned a lot through this box, and I can see why it would be rated as easy if you know your way around git, but for me I would rate this as medium."
 date: 2022-05-24
 classes: wide
 header:

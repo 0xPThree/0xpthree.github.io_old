@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Noter - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Noter is an medium-rated machine from Hack The Box. Even though it's medium rating I found this box to be very straight forward with little to none rabbit holes, and thus I would rate it as easy. Doing this box I found a new tool in regards to JWT, and learned about certain MySQL functions."
 date: 2022-05-23
 classes: wide
 header:
