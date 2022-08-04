@@ -18,7 +18,10 @@ tags:
 
 ![](/assets/images/htb-writeup-noter/noter_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-Machine has not yet retired, full writeup will be released soon!
+Noter is an medium-rated machine from Hack The Box. Even though it's medium rating I found this box to be very straight forward with little to none rabbit holes, and thus I would rate it as easy. Doing this box I found a new tool in regards to JWT, and learned about certain MySQL functions.
+<br>
+<br>
+<br>
 <br>
 
 ----------------

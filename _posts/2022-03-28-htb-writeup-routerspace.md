@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Routerspace - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "RouterSpace is an easy-rated Linux machine from Hack The Box. It is very different from other boxes as we're tasked with compromizing a router apk-file. Personally I found the hardest part to be finding the tools needed for the job. Once everything was setup properly the path from foothold to user to root took about 20 minutes. Looking back I learned a lot from this machine, and it was quite fun to own. Would recommend!"
 date: 2022-03-28
 classes: wide
 header:
@@ -13,12 +13,18 @@ categories:
 tags:  
   - linux
   - easy
+  - apk
+  - anbox
+  - adb
+  - rce
+  - sudo
 ---
 
 ![](/assets/images/htb-writeup-routerspace/routerspace_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+RouterSpace is an easy-rated Linux machine from Hack The Box. It is very different from other boxes as we're tasked with compromizing a router apk-file. Personally I found the hardest part to be finding the tools needed for the job. Once everything was setup properly the path from foothold to user to root took about 20 minutes. Looking back I learned a lot from this machine, and it was quite fun to own. Would recommend!
 <br>
+<br >
 
 ----------------
 
@@ -207,11 +213,11 @@ $ anbox.appmgr
 ```
 
 **Burp Proxy Settings**:
-![[Pasted image 20220328140155.png]]
+![](/assets/images/htb-writeup-routerspace/routerspace01.png)
 
 
 We are now able to capture the `Check Status` API call in Burp.
-![[Pasted image 20220328140056.png]]
+![](/assets/images/htb-writeup-routerspace/routerspace02.png)
 
 
 -------------
@@ -219,7 +225,7 @@ We are now able to capture the `Check Status` API call in Burp.
 ### Step 3
 We have one data parameter to play with, ``ip``, and we quickly find that it's not sanitized and vulnerable for command injection.
 
-![[Pasted image 20220328141018.png]]
+![](/assets/images/htb-writeup-routerspace/routerspace03.png)
 
 Generate a new SSH key, inject it and login as user Paul. Grab user.txt.
 ```bash

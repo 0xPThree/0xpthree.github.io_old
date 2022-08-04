@@ -18,7 +18,8 @@ tags:
 
 ![](/assets/images/htb-writeup-timelapse/timelapse_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-Machine has not yet retired, full writeup will be released soon!
+Timelapse is an easy-rated Windows machine from Hack The Box. The box is quiet realistic where you work your way to the initial foothold starting with some locked files on a open share. I struggled a bit on what to do with found certificates, but once figured out it was smooth sailing to Administrator. This wasn't the most enjoyable box I've done, neither was it particularly bad.
+<br>
 <br>
 
 ----------------

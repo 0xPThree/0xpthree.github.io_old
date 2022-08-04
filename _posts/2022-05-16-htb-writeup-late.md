@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Late - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Late is an easy-rated Linux machine from Hack The Box. In this box we're met with one of my favorite exploit techniques - Server Side Template Injection (SSTI). The path from user to root is unique and embarrassingly enough something I've never encountered before. The box was good fun and I most certainly learned something useful that I will take with me to further tests."
 date: 2022-05-16
 classes: wide
 header:
@@ -13,11 +13,15 @@ categories:
 tags:  
   - linux
   - easy
+  - ssti
+  - jinja2
+  - file attributes
 ---
 
 ![](/assets/images/htb-writeup-late/late_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+Late is an easy-rated Linux machine from Hack The Box. In this box we're met with one of my favorite exploit techniques - Server Side Template Injection (SSTI). The path from user to root is unique and embarrassingly enough something I've never encountered before. The box was good fun and I most certainly learned something useful that I will take with me to further tests.
+<br>
 <br>
 
 ----------------
@@ -59,7 +63,7 @@ PORT     STATE         SERVICE
 
 Browsing the webpage we find `images.late.htb`, add it to `/etc/hosts` and proceed. The site is very basic and lets us upload an image which will be converted to a text document.
 
-![[Pasted image 20220509205732.png]]
+![](/assets/images/htb-writeup-late/late01.png)
 This lead me down the road of "ImageTragick" trying to inject code with the following string:
 ```bash
 push graphic-context
@@ -89,8 +93,10 @@ ${7*7}
 
 We see that both {% raw %}`{{7*7}}`{% endraw %} and {% raw %}`{{7*'7'}}`{% endraw %} are calculated/modified. Looking on the "SSTI chart" we can deduce it's either the template engine **Jinja2**, **Twig** or **Unknown**.
 
-![[Pasted image 20220516210055.png]]
+![](/assets/images/htb-writeup-late/late02.png)
+
 **Twig**: {% raw %}{{7*'7'}}{% endraw %} = 49
+
 **Jinja2**: {% raw %}{{7*'7'}}{% endraw %} = 7777777
 
 We've successfully detected the template engine, **Jinja2**.
