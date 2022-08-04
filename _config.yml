@@ -108,7 +108,7 @@ author:
   avatar           : "/assets/images/avatar.png"
   bio              : "Pentester, HTB enjoyer<br>0-day contributor"
   location         : "Sweden"
-  email            : "info@exploit.se"
+  #email            : "info@exploit.se"
   github           : "0xpthree"
   discord          : "Ar9P2SkM"
   links:
@@ -293,3 +293,34 @@ defaults:
       comments: false # true
       share: false
       related: false
+  # _undisclosed
+  - scope:
+      path: ""
+      type: undisclosed
+    values:
+      layout: single
+      show_date: true
+      author_profile: true
+      read_time: false
+      comments: false # true
+      share: false
+      related: false
+
+# Collections
+collections:
+  undisclosed:
+    output: true
+    permalink: /:collection/:path/
+
+
+# _undisclosed
+#collections:
+#  undisclosed: 
+#    type: posts
+#    layout: single
+#    show_date: true
+#    author_profile: true
+#    read_time: false
+#    comments: false # true
+#    share: false
+#    related: false
