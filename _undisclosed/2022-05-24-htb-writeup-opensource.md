@@ -14,7 +14,6 @@ categories:
 tags:  
   - linux
   - easy
-  - not retired
 ---
 
 ![](/assets/images/htb-writeup-opensource/opensource_logo.png){: style="float: right; width: 200px; margin-left: 2em"}

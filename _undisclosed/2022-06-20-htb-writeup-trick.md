@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Trick - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Trick is an easy-rated Linux machine from Hack The Box. For it's rating it feel like this is a true 'try harder'-type of box where you have to enumerate everything thoroughly before moving on. However once you're set on the right path, the path is really straight forward and easy to understand. For me this wasn't the most enjoyable box, almost a bit annoying even, but I learned something in the end nevertheless."
 date: 2022-06-20
 classes: wide
 header:
@@ -14,7 +14,6 @@ categories:
 tags:  
   - linux
   - easy
-  - not retired
 ---
 
 ![](/assets/images/htb-writeup-trick/trick_logo.png){: style="float: right; width: 200px; margin-left: 2em"}

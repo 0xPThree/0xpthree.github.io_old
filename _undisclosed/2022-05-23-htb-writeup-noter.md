@@ -14,7 +14,6 @@ categories:
 tags:  
   - linux
   - medium
-  - not retired
 ---
 
 ![](/assets/images/htb-writeup-noter/noter_logo.png){: style="float: right; width: 200px; margin-left: 2em"}

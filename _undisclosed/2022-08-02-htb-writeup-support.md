@@ -14,7 +14,6 @@ categories:
 tags:  
   - windows
   - easy
-  - not retired
 ---
 
 ![](/assets/images/htb-writeup-support/support_logo.png){: style="float: right; width: 200px; margin-left: 2em"}

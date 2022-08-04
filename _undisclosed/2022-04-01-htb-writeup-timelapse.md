@@ -1,20 +1,19 @@
 ---
 layout: single
 title: Timelapse - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Timelapse is an easy-rated Windows machine from Hack The Box. The box is quiet realistic where you work your way to the initial foothold starting with some locked files on a open share. I struggled a bit on what to do with found certificates, but once figured out it was smooth sailing to Administrator. This wasn't the most enjoyable box I've done, neither was it particularly bad."
 date: 2022-04-01
 classes: wide
 header:
   teaser: /assets/images/htb-writeup-timelapse/timelapse_logo.png
   unreleased: true
   teaser_home_page: true
-  icon: /assets/images/linux.png
+  icon: /assets/images/windows.png
 categories:
   - hackthebox
 tags:  
-  - linux
+  - windows
   - easy
-  - not retired
 ---
 
 ![](/assets/images/htb-writeup-timelapse/timelapse_logo.png){: style="float: right; width: 200px; margin-left: 2em"}

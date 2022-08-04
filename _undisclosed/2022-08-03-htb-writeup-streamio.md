@@ -14,7 +14,6 @@ categories:
 tags:  
   - windows
   - medium
-  - not retired
 ---
 
 ![](/assets/images/htb-writeup-streamio/streamio_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
