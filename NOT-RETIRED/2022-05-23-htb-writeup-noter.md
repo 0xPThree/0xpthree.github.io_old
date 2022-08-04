@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Noter - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Noter is an medium-rated machine from Hack The Box. Even though it's medium rating I found this box to be very straight forward with little to none rabbit holes, and thus I would rate it as easy. Doing this box I found a new tool in regards to JWT, and learned about certain MySQL functions. "
 date: 2022-05-23
 classes: wide
 header:
@@ -13,7 +13,11 @@ categories:
 tags:  
   - linux
   - medium
-  - not retired
+  - ftp
+  - brute force
+  - flask
+  - subprocess
+  - mysql
 ---
 
 ![](/assets/images/htb-writeup-noter/noter_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -64,7 +68,7 @@ Werkzeug has a known code execution if debug is enabled, quickly check with scri
 ```
 
 Browse port 5000 and we are met with a very simple page.
-![[Pasted image 20220519104910.png]]
+![](/assets/images/htb-writeup-noter/noter01.png)
 
 Trying bacis authentication bypasses doesn't give anything, so instead we create an account with credentials `admin:admin`. 
 
@@ -81,7 +85,7 @@ After some enumeration I finally found that the login validates if the username 
 
 With this information we send the login to Burp Intruder, add the two strings to "Grep - Match" and brute force the user using Burp built-in Usernames list. 
 
-![[Pasted image 20220519124126.png]]
+![](/assets/images/htb-writeup-noter/noter02.png)
 
 Admin is my registered user, however `blue` is not - we found a valid user!
 
@@ -89,7 +93,7 @@ Admin is my registered user, however `blue` is not - we found a valid user!
 ### Step 2
 Next we need to find the credentials for user `blue`, we can try to brute force the login which would cause a lot of noice, but we can also try to to crack the JWT (as it's HMAC).
 
-![[Pasted image 20220523090302.png]]
+![](/assets/images/htb-writeup-noter/noter03.png)
 
 Running `webanalyze` we find that Flask is running on the backend. Reading through HackTricks about Flask we find the tool `Flask-Unsign` which is used to fetch, decode, brute-force and craft session cookies of Flask applications - perfect!
 
@@ -119,12 +123,12 @@ eyJsb2dnZWRfaW4iOnRydWUsInVzZXJuYW1lIjoiYmx1ZSJ9.Yos0Lw.Lp1b4zGs-GrDuPvgxv2kkkC3
 Change the browser session cookie and refresh the page, and boom we are `blue`! 
 **Note**: As a VIP user we can Import and Export notes.
 
-![[Pasted image 20220523091605.png]]
+![](/assets/images/htb-writeup-noter/noter04.png)
 
 ### Step 3
 Blue have two notes and in one of them we find the clear text credentials to the FTP - `blue:blue@Noter!`
 But we also find the username `ftp_admin`.
-![[Pasted image 20220523091853.png]]
+![](/assets/images/htb-writeup-noter/noter05.png)
 
 Login to the FTP using found credentials. Within we find the file `policy.pdf`, download the file and review it.
 
@@ -235,7 +239,7 @@ Create a python3 revshell in a markdown file, and break the command synax as see
 
 Export the file and grab the shell.
 
-![[Pasted image 20220523104542.png]]
+![](/assets/images/htb-writeup-noter/noter06.png)
 
 ```bash
 ➜  noter python3 -m http.server 80  

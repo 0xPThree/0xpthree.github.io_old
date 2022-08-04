@@ -13,7 +13,14 @@ categories:
 tags:  
   - windows
   - easy
-  - not retired
+  - smb
+  - binary
+  - dnspy
+  - ad
+  - bloodhound
+  - bloodyad
+  - rbcd
+  - silver ticket
 ---
 
 ![](/assets/images/htb-writeup-support/support_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -146,10 +153,10 @@ Archive:  UserInfo.exe.zip
 Open the .exe binary in dnSpy, go through the code and we find ..
 
 .. the user which is used to do the ldap queries, `support\ldap`. (UserInfo.Services.LdapQuery)
-![[Pasted image 20220801164008.png]]
+![](/assets/images/htb-writeup-support/support01.png)
 
 .. the encrypted password (`0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E`)  for `support\ldap` and the function used to decrypt it. (UserInfo.Services.Protected)
-![[Pasted image 20220801164303.png]]
+![](/assets/images/htb-writeup-support/support02.png)
 
 We can simply extract the password by setting a breakpoint on the return function and look at the values of `array`. Within we find 36 hex values, throw them into [cyberchef](https://gchq.github.io/CyberChef/)and we get:
 ```bash
@@ -281,10 +288,10 @@ Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
 
 ### Step 2
 Analyze the BloodHound output and we quickly see that our user (`support`) has **GenericAll** to computer `dc.support.htb`.
-![[Pasted image 20220802094918.png]]
+![](/assets/images/htb-writeup-support/support03.png)
 
 To better understand what all different ACL's mean, we can look on this graph.
-![[Pasted image 20220802104519.png]]
+![](/assets/images/acl-attack-graph.png)
 
 From the graph we see that **GenericAll** means we got full rights over the computer, DC. Looking at the bottom row, and the box named Computer we have two main options.
 1. RBCD - Resource Based Constrained Delegation

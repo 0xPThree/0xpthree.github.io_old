@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Trick - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Trick is an easy-rated Linux machine from Hack The Box. For it's rating it feel like this is a true 'try harder'-type of box where you have to enumerate everything thoroughly before moving on. However once you're set on the right path, the path is really straight forward and easy to understand. For me this wasn't the most enjoyable box, almost a bit annoying even, but I learned something in the end nevertheless."
 date: 2022-06-20
 classes: wide
 header:
@@ -13,7 +13,12 @@ categories:
 tags:  
   - linux
   - easy
-  - not retired
+  - dns
+  - fuzzing
+  - sqli
+  - lfi
+  - fail2ban
+  - hydra
 ---
 
 ![](/assets/images/htb-writeup-trick/trick_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -90,7 +95,7 @@ Received 192 bytes from 10.129.37.48#53 in 35 ms
 ----------------------
 ### Step 2
 On `preprod-payroll.trick.htb` we find a login prompt, as seen in below picture.
-![[Pasted image 20220620203513.png]]
+![](/assets/images/htb-writeup-trick/trick01.png)
 
 However this seems likes it's most a front, as when fuzzing the site we get a lot of 200's.
 ```bash
@@ -111,11 +116,11 @@ users                   [Status: 200, Size: 2197, Words: 103, Lines: 81]
 ```
 
 Go to `/users.php` and we find the Administrator username, `Enemigosss`.
-![[Pasted image 20220620203715.png]]
+![](/assets/images/htb-writeup-trick/trick02.png)
 
 We don't have any password yet, and trying a quick spray doesn't bite. Instead we look to SQL Injection and we find something interesting. 
 
-![[Pasted image 20220620204417.png]]
+![](/assets/images/htb-writeup-trick/trick03.png)
 
 Quickly test it out with `sqlmap`:
 ```bash
@@ -159,11 +164,11 @@ payroll                 [Status: 302, Size: 9546, Words: 1453, Lines: 267]
 The marketing site seems to be similar to payroll, where the data is presented through the `page` url parameter.
 Trying some standard Burp LFI lists and we get one match! We're able to read `/etc/hosts`
 
-![[Pasted image 20220620215128.png]]
+![](/assets/images/htb-writeup-trick/trick04.png)
 
 Send the request to the `repeater` and grab `/etc/passwd` to find valid users.
 
-![[Pasted image 20220620215300.png]]
+![](/assets/images/htb-writeup-trick/trick05.png)
 
 User `michael` seems like our guy! Note that he has UID 1001, and 1000 is no where to be seen - interesting! Look if michael has an `id_rsa` we can steal.
 

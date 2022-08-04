@@ -13,7 +13,13 @@ categories:
 tags:  
   - windows
   - medium
-  - not retired
+  - fuzzing
+  - sqli
+  - php
+  - ad
+  - bloodhound
+  - bloodyad
+  - firefox profile
 ---
 
 ![](/assets/images/htb-writeup-streamio/streamio_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -347,7 +353,7 @@ yoshihide:b779ba15cedfd22a023c4d8bcf5f2332:66boysandgirls..
 Testing all the credentials on `https://streamio.htb/login.php` we find that only `yoshihide:66boysandgirls..` works. 
 As `yoshihide` we are able to visit `https://streamio.htb/admin` and can manage users, staff, movies and "leave a message for admin". 
 
-![[Pasted image 20220701131010.png]]
+![](/assets/images/htb-writeup-streamio/streamio01.png)
 
 With our admin credentials we re-enumerate `/admin/` and we find a new url-parameter `debug`
 ```bash
@@ -720,7 +726,7 @@ INFO: Done in 00M 05S
 Running the raw query `MATCH (u:User {hasspn:true}) RETURN u` in Bloodhound we find all users that are Kerberoastable - unfortunatley we only find `krbtgt` which is default. 
 Analyzing further with BloodHound we can't find anything of use from `nikk37`. However searching from the domain (`STREAMIO.HTB`) and selecting "Shortest Path to Here" we find two interesting users - `Martin` and `JDGODD`.
 
-![[Pasted image 20220802160348.png]]
+![](/assets/images/htb-writeup-streamio/streamio02.png)
 
 ### Step 2
 Enumerating the box localy we find that Mozilla Firefox is installed. With the box [Hancliffe](https://exploit.se/htb-writeup-hancliffe/) relatively fresh in mind, firefox profiles is something that we love to find. 
@@ -801,9 +807,9 @@ In BloodHound we saw that `JDGODD` had `WriteOwner` rights to the group `CORE ST
 With `GenericAll` we are allowed to add members to a group, and in this case we saw earlier that `CORE STAFF` group is allowed to read LAPS password - meaning Administrator access.
 
 
-![[Pasted image 20220802104519.png]]
+![](/assets/images/acl-attack-graph.png)
 
-![[Pasted image 20220803100633.png]]
+![](/assets/images/htb-writeup-streamio/streamio03.png)
 
 ```bash
 ## Get WriteDACL
@@ -823,7 +829,7 @@ With `GenericAll` we are allowed to add members to a group, and in this case we 
 }
 ```
 
-![[Pasted image 20220803094159.png]]
+![](/assets/images/htb-writeup-streamio/streamio04.png)
 
 ```bash
 ➜  bloodyAD git:(main) ./bloodyAD.py -d streamio.htb -u jdgodd -p "JDg0dd1s@d0p3cr3@t0r" --host 10.10.11.158 addObjectToGroup JDGODD "CORE STAFF"

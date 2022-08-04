@@ -1,7 +1,7 @@
 ---
 layout: single
 title: OpenSource - Hack The Box
-excerpt: "Machine has not yet retired, writeup will be released when retired! Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "OpenSource is an easy-rated Linux machine from Hack The Box. As the name suggests we're met with an OpenSource project that have over shared, in making them vulnerable to code execution. The path to user is quiet unique and it alone makes this box very enjoyable! As a total git-noob I learned a lot through this box, and I can see why it would be rated as easy if you know your way around git, but for me I would rate this as medium."
 date: 2022-05-24
 classes: wide
 header:
@@ -13,7 +13,9 @@ categories:
 tags:  
   - linux
   - easy
-  - not retired
+  - git
+  - python
+  - docker
 ---
 
 ![](/assets/images/htb-writeup-opensource/opensource_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
@@ -265,11 +267,11 @@ We're in a docker container.. both `capsh` and `getcap` is unavailable, we don't
 ```
 
 
-![[Pasted image 20220524102911.png]]
+![](/assets/images/htb-writeup-opensource/opensource01.png)
 
 Login with previously found credentials, `dev01:Soulless_Developer#2022`, and grab the private key. 
 
-![[Pasted image 20220524103007.png]]
+![](/assets/images/htb-writeup-opensource/opensource02.png)
 
 ```bash
 ➜  opensource chmod 400 id_rsa 
@@ -293,10 +295,10 @@ We are unable to run `sudo -l`, and the groups look fine.
 Reading about GiTea vulnerabilities a lot of articles point towards an authenticated RCE through Git Hooks.
 
 Looking in our web-gui we don't seem to have that option available.
-![[Pasted image 20220524131702.png]]
+![](/assets/images/htb-writeup-opensource/opensource03.png)
 
 Here's an vulnerable example:
-![[Pasted image 20220524131739.png]]
+![](/assets/images/htb-writeup-opensource/opensource04.png)
 
 But, we don't need the web-gui, we have the `.git` in our home directory as user `dev01`. 
 ```bash
