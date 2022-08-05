@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Hancliffe - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Hancliffe is an hard-rated Windows machine from Hack The Box, and holy fuck is it hard! This is definitely one of the most challenging machines I've done, if not THE most challenging, and also most fun. There's a lot going on here, SSTI, Parser Logic, Firefox Profiles but in the end it's the reversing and binary exploitation parts that shine. I encountered my first ghidra disasembly error throwing me off guard for literally days. I've learned a lot throughout this machine and this is one of my most thorough writeups, so I hope it helps and that you learn aswell! :)"
 date: 2022-01-24
 classes: wide
 header:
@@ -14,6 +14,7 @@ categories:
 tags:  
   - windows
   - hard
+  - ssti
   - nginx parser logic
   - firefox profile
   - reversing
@@ -24,7 +25,7 @@ tags:
 
 ![](/assets/images/htb-writeup-hancliffe/hancliffe_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+Hancliffe is an hard-rated Windows machine from Hack The Box, and holy fuck is it hard! This is definitely one of the most challenging machines I've done, if not THE most challenging, and also most fun. There's a lot going on here, SSTI, Parser Logic, Firefox Profiles but in the end it's the reversing and binary exploitation parts that shine. I encountered my first ghidra disasembly error throwing me off guard for literally days. I've learned a lot throughout this machine and this is one of my most thorough writeups, so I hope it helps and that you learn aswell! :)
 <br>
 
 ----------------

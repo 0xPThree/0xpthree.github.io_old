@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Paper - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Paper is an easy-rated Linux machine from Hack The Box, themed around the TV Show 'The Office'. In true ´The Office' fashion we are met with Michaels incompetence and Dwights crazy ideas, compromizing the company security and giving us a foothold to Dwights Recyclops-server. I found the box to be very simple and straight forward, they path to user was very enjoyable and root had a fun little quirk. I warmly recommend this box! :)" 
 date: 2022-02-16
 classes: wide
 header:
@@ -22,8 +22,8 @@ tags:
 
 ![](/assets/images/htb-writeup-paper/paper_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-<br>
+Paper is an easy-rated Linux machine from Hack The Box, themed around the TV Show 'The Office'. In true ´The Office' fashion we are met with Michaels incompetence and Dwights crazy ideas, compromizing the company security and giving us a foothold to Dwights [Recyclops]([https://theoffice.fandom.com/wiki/Recyclops)-server. I found the box to be very simple and straight forward, they path to user was very enjoyable and root had a fun little quirk. I warmly recommend this box! :)
+<br><br>
 
 ----------------
 

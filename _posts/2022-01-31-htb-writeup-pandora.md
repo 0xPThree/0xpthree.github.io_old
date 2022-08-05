@@ -1,7 +1,7 @@
 ---
 layout: single
 title: Pandora - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "Pandora is an easy-rated Linux machine from Hack The Box. On this machine we're forced to think outside of the box, or even inside to be precise. We get a foothold almost instantly and from there need to enumerate the local services and use tunneling to exploit them, which I find unique for an easy-rated machine. The $PATH to root has a nice little quirk that took me off guard, and in the end forced me to learn something valuable that I'll take with me for future assessments. Was it fun though? Yes and no, it was decent and will keep you busy for a few hours."
 date: 2022-01-31
 classes: wide
 header:
@@ -18,11 +18,12 @@ tags:
   - tunneling
   - suid
   - path
+  - apache sandbox
 ---
 
 ![](/assets/images/htb-writeup-pandora/pandora_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+Pandora is an easy-rated Linux machine from Hack The Box. On this machine we're forced to think outside of the box, or even inside to be precise. We get a foothold almost instantly and from there need to enumerate the local services and use tunneling to exploit them, which I find unique for an easy-rated machine. The $PATH to root has a nice little quirk that took me off guard, and in the end forced me to learn something valuable that I'll take with me for future assessments. Was it fun though? Yes and no, it was decent and will keep you busy for a few hours.
 <br>
 
 ----------------
