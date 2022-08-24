@@ -108,9 +108,9 @@ author:
   avatar           : "/assets/images/avatar.png"
   bio              : "Pentester, HTB enjoyer<br>0-day contributor"
   location         : "Sweden"
-  #email            : "info@exploit.se"
+  email            : "pthree@protonmail.com"
   github           : "0xpthree"
-  discord          : "Ar9P2SkM"
+  discord          : "Sa4mFEXGEz"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
