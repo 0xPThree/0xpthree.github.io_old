@@ -13,7 +13,7 @@ categories:
   - hackthebox
 tags:  
   - linux
-  - hard
+  - medium
 ---
 
 ![](/assets/images/htb-writeup-updown/updown_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
