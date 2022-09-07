@@ -13,7 +13,7 @@ categories:
   - hackthebox
 tags:  
   - linux
-  - hard
+  - medium
   - git
   - custom header
   - file upload
