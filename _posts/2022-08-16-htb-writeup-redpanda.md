@@ -300,17 +300,18 @@ public class App {
 Starting from main, the jar-file opens `/opt/panda_search/redpanda.log` and reads the output, line by line, top down. 
 Note that we have read+write over the file as it's owned by group `logs`.
 
-```
+```bash
 woodenk@redpanda:/dev/shm$ ls -al /opt/panda_search/redpanda.log 
 -rw-rw-r-- 1 root logs 280 Aug 16 12:46 /opt/panda_search/redpanda.log
 woodenk@redpanda:/dev/shm$ id
 uid=1000(woodenk) gid=1001(logs) groups=1001(logs),1000(woodenk)
 ```
 
-**Below are the steps we need to understand:**
-1. Verify that `.jpg` is present in `redpanda.log`
+**Below are the steps we need to understand:**<br>
+<br>1, Verify that `.jpg` is present in `redpanda.log`.<br>
+
 ```java
-## MAIN
+// MAIN
 File log_fd = new File("/opt/panda_search/redpanda.log");
 Scanner log_reader = new Scanner(log_fd);
 while (log_reader.hasNextLine()) {
@@ -318,54 +319,58 @@ while (log_reader.hasNextLine()) {
   if (!isImage(line))
     continue; 
 
-## isImage
+// isImage
 public static boolean isImage(String filename) {
     if (filename.contains(".jpg"))
       return true; 
     return false;
 ```
 
-2. When a line with `.jpg` is found, send the line to be parsed by function `parseLog`.  `parseLog` will separate the line and return four callable chunks; (1) `status_code`, (2) `ip`, (3) `user_agent` & (4) `uri`. Again, note that we can controll the `uri` parameter as we (group ``logs``) own `redpanda.log`.
+<br>2, When a line with `.jpg` is found, send the line to be parsed by function `parseLog`.  `parseLog` will separate the line and return four callable chunks; (1) `status_code`, (2) `ip`, (3) `user_agent` & (4) `uri`. Again, note that we can controll the `uri` parameter as we (group ``logs``) own `redpanda.log`.
+
 ```java
-## MAIN
+// MAIN
 Map parsed_data = parseLog(line);
 System.out.println(parsed_data.get("uri"));
 ```
 
-3. The `uri` parameter is sent to `getArtist` function where it will look for the image in `/opt/panda_search/src/main/resources/static`, which is the default path for the `img` directory where all red panda images are stored. Since we controll `uri` we can use path traversal and look for the image else where, example  `/../../../../../../dev/shm/e.jpg`.
+<br>3, The `uri` parameter is sent to `getArtist` function where it will look for the image in `/opt/panda_search/src/main/resources/static`, which is the default path for the `img` directory where all red panda images are stored. Since we controll `uri` we can use path traversal and look for the image else where, example  `/../../../../../../dev/shm/e.jpg`.
+
 ```java
-## MAIN
+// MAIN
 String artist = getArtist(parsed_data.get("uri").toString());
 
-## getArtist
+// getArtist
 public static String getArtist(String uri) throws IOException, JpegProcessingException {
     String fullpath = "/opt/panda_search/src/main/resources/static" + uri;
     File jpgFile = new File(fullpath);
 ```
 
-4. The meta data from found image will be checked, and the value of `Artist` will be returned to main, which will be used to create a path to a XML-file. Since we're pointing to our custom image, we can controll the metadata with `exiftool` and use path traversal again to our own XML-file. Example, `exiftool -Artist="../dev/shm/pwn" e.jpg`, creating the xmlPath `/credits/../dev/shm/pwn_creds.xml`.
+<br>4, The meta data from found image will be checked, and the value of `Artist` will be returned to main, which will be used to create a path to a XML-file. Since we're pointing to our custom image, we can controll the metadata with `exiftool` and use path traversal again to our own XML-file. Example, `exiftool -Artist="../dev/shm/pwn" e.jpg`, creating the xmlPath `/credits/../dev/shm/pwn_creds.xml`.
+
 ```java
-## getArtist
+// getArtist
  Metadata metadata = JpegMetadataReader.readMetadata(jpgFile);
  for (Directory dir : metadata.getDirectories()) {
   for (Tag tag : dir.getTags()) {
     if (tag.getTagName() == "Artist")
  	 return tag.getDescription(); 
 
-## MAIN
+// MAIN
  System.out.println("Artist: " + artist);
  String xmlPath = "/credits/" + artist + "_creds.xml";
 ```
 
-5. Lastly all our controlled data is sent to function `addViewTo`, `xmlPath` is set to `/credits/../dev/shm/pwn_creds.xml` and `uri` to `/../../../../../../dev/shm/e.jpg`. 
+<br>5, Lastly all our controlled data is sent to function `addViewTo`, `xmlPath` is set to `/credits/../dev/shm/pwn_creds.xml` and `uri` to `/../../../../../../dev/shm/e.jpg`. 
 - The element `uri` (in the XML-file) is compared to variable `uri` to make sure they are the same. This means that we need to set `<uri>/../../../../../../dev/shm/e.jpg</uri>` in our XML, else this wont pass
 - `totalviews` are calculated, meaning we need to have `<totalviews></totalviews>` in our XML
 - `views` are calculcated, same as above, we need to have `<views></views>` in our XML
+
 ```java
-## MAIN
+// MAIN
 addViewTo(xmlPath, parsed_data.get("uri").toString());
 
-## addViewTo
+// addViewTo
 File fd = new File(path);
     Document doc = saxBuilder.build(fd);
     Element rootElement = doc.getRootElement();
