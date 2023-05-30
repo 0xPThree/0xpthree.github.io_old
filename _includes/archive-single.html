@@ -23,12 +23,14 @@
           alt="">
       </div>
     {% endif %}
-    <h2 class="archive__item-title" itemprop="headline">
+    <h2 class="archive__item-title" itemprop="headline" style="overflow:visible;">
       {% if post.link %}
         <a href="{{ post.link }}">{{ title }}</a> <a href="{{ post.url | relative_url }}" rel="permalink"><i class="fas fa-link" aria-hidden="true" title="permalink"></i><span class="sr-only">Permalink</span></a>
       {% else %}
         <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
         {% if post.header.icon %}<img src="{{ post.header.icon }}" alt="" style="height:24px; margin-left:10px">{% endif %}
+        {% if post.header.teaser_home_page %}<img src="{{ post.header.teaser }}" alt="" style="float: right;margin-right:10px; margin-left:20px; margin-bottom:10px; height:120px;">{% endif %}
+        {% if post.header.unreleased %}<img src="/assets/images/x.png" class="unreleased" alt="" style="float: right;margin-right:10px; margin-left:20px; margin-bottom:10px; height:120px;">{% endif %}
       {% endif %}
     </h2>
 
@@ -42,8 +44,8 @@
     </p>
 
     {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">
-      {% if post.header.teaser_home_page %}<img src="{{ post.header.teaser }}" alt="" style="float: right;margin-right:10px; margin-left:20px; margin-bottom:10px; height:120px;">{% endif %}
-      {% if post.header.unreleased %}<img src="/assets/images/x.png" class="unreleased" alt="" style="float: right;margin-right:10px; margin-left:20px; margin-bottom:10px; height:120px;">{% endif %}
+      <!-- {% if post.header.teaser_home_page %}<img src="{{ post.header.teaser }}" alt="" style="float: right;margin-right:10px; margin-left:20px; margin-bottom:10px; height:120px;">{% endif %} -->
+      <!-- {% if post.header.unreleased %}<img src="/assets/images/x.png" class="unreleased" alt="" style="float: right;margin-right:10px; margin-left:20px; margin-bottom:10px; height:120px;">{% endif %} -->
       {{ post.excerpt | markdownify | strip_html | truncate: 1024 }}</p>
     {% endif %}
     <i class="fas fa-tags"></i>

