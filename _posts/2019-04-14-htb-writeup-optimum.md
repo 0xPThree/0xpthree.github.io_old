@@ -13,6 +13,7 @@ categories:
   - hackthebox
 tags:  
   - windows
+  - easy
   - http
   - hfs
   - ms16-098

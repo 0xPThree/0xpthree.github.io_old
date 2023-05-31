@@ -11,7 +11,9 @@ header:
   unreleased: false
 categories:
   - hackthebox
-tags:  
+tags:
+  - windows
+  - easy
 ---
 
 ![](/assets/images/htb-writeup-netmon/netmon_logo.png){: style="float: right; width: 200px; margin-left: 2em"}

@@ -31,13 +31,13 @@
 }
 
 .search-content {
-  display: none;
+  /*display: none;*/
   visibility: hidden;
   padding-top: 1em;
   padding-bottom: 1em;
 
   &__inner-wrap {
-    width: 100%;
+    width: 50%;
     margin-left: auto;
     margin-right: auto;
     padding-left: 1em;
@@ -99,16 +99,20 @@
     }
 
     @include breakpoint($x-large) {
-      width: 50%;
+      width: 100%;
     }
   }
 
   .archive__item-title {
     margin-top: 0;
+    padding-left: 278px;
+    padding-right: 200px;
   }
 
   .archive__item-excerpt {
     margin-bottom: 0;
+    padding-left: 278px;
+    padding-right: 200px;
   }
 }
 

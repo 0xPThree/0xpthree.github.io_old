@@ -46,12 +46,10 @@ $(document).ready(function() {
         var searchitem =
           '<div class="list__item">'+
             '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
-              '<h2 class="archive__item-title" itemprop="headline">'+
+              '<h2 class="archive__item-title" itemprop="headline" style="overflow:visible;">'+
                 '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+                '<img src="'+store[ref].teaser+'" alt="" style="float: right; width: 90px; margin-left: 2em">'+
               '</h2>'+
-              '<div class="archive__item-teaser">'+
-                '<img src="'+store[ref].teaser+'" alt="">'+
-              '</div>'+
               '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
             '</article>'+
           '</div>';

@@ -13,6 +13,7 @@ categories:
   - hackthebox
 tags:  
   - linux
+  - easy
   - smb
   - anonymous
   - logon
@@ -24,7 +25,7 @@ N/A<br><br><br><br><br><br><br>
 
 ----------------
 
-# User
+# USER
 ## Enumeration
 ```bash
 root@nidus:/git/thm# nmap -Pn -sC -sV -n 10.10.10.3

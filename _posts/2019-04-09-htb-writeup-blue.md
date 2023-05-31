@@ -13,6 +13,7 @@ categories:
   - hackthebox
 tags:  
   - windows
+  - easy
   - eternalblue
   - ms17-010
   - smb
@@ -25,7 +26,7 @@ N/A<br><br><br><br><br><br><br>
 ----------------
 
 
-# User
+# USER
 ## Enumeration
 ```bash
 [root:/git/htb/blue]# nmap -Pn -n -sCV 10.10.10.40 --open                                                                         (master✱)

@@ -13,6 +13,7 @@ categories:
   - hackthebox
 tags:  
   - windows
+  - easy
   - smb
   - ms17-010
   - eternalblue
@@ -24,7 +25,7 @@ N/A<br><br><br><br><br><br><br>
 
 ----------------
 
-# User
+# USER
 ## Enumeration
 
 ```bash
