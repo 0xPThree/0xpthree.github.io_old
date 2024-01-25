@@ -29,10 +29,15 @@ $bodoni: "Bodoni MT", serif !default;
 $calisto: "Calisto MT", serif !default;
 $garamond: Garamond, serif !default;
 
+@font-face {
+   font-family: "SairaSemiCondensed";
+   src: url("../fonts/SairaSemiCondensed-SemiBold.ttf");
+}
+
 /* DEFAULT FONTS - CUSTOM */
-$global-font-family: $monospace !default;
-$header-font-family: $monospace !default;
-$caption-font-family: $monospace !default;
+$global-font-family: "SairaSemiCondensed", monospace;
+$header-font-family: "SairaSemiCondensed", monospace;
+$caption-font-family: "SairaSemiCondensed", monospace;
 
 /* type scale */
 $type-size-1: 2.441em !default; // ~39.056px
